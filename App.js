@@ -1,10 +1,10 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Text } from 'react-native';
+import { Text, View, StyleSheet, Platform } from 'react-native';
 
 import LandingScreen from './src/screens/LandingScreen';
 import MarketsScreen from './src/screens/MarketsScreen';
@@ -13,59 +13,109 @@ import HistoryScreen from './src/screens/HistoryScreen';
 import SignalsScreen from './src/screens/SignalsScreen';
 import { COLORS } from './src/constants/theme';
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const TabIcon = ({ label, focused }) => (
-  <Text style={{
-    fontSize: 18,
-    opacity: focused ? 1 : 0.5,
-  }}>
-    {label === 'Markets' ? '📈' : label === 'AI Predict' ? '🤖' : label === 'History' ? '📚' : '📡'}
-  </Text>
-);
+const ICONS = {
+  'Markets': '📈',
+  'AI Predict': '🤖',
+  'History': '📚',
+  'Signals': '📡',
+};
 
 const MainTabs = () => (
   <Tab.Navigator
     screenOptions={({ route }) => ({
-      headerStyle: { backgroundColor: COLORS.headerBg },
-      headerTintColor: COLORS.headerText,
-      headerTitleStyle: { fontWeight: '600', letterSpacing: 0.5 },
       tabBarStyle: {
         backgroundColor: COLORS.headerBg,
-        borderTopColor: 'rgba(255,255,255,0.1)',
-        paddingBottom: 8,
-        paddingTop: 8,
-        height: 65,
+        borderBottomWidth: 1,
+        borderBottomColor: 'rgba(255,255,255,0.1)',
+        elevation: 0,
+        shadowOpacity: 0,
+        height: 50,
+        paddingTop: 0,
+      },
+      tabBarIndicatorStyle: {
+        backgroundColor: COLORS.accent,
+        height: 3,
+        marginBottom: 0,
+      },
+      tabBarIndicatorContainerStyle: {
+        borderBottomWidth: 0,
       },
       tabBarActiveTintColor: COLORS.accent,
       tabBarInactiveTintColor: 'rgba(255,255,255,0.4)',
-      tabBarLabelStyle: { fontSize: 10, marginTop: 2 },
-      tabBarIcon: ({ focused }) => <TabIcon label={route.name} focused={focused} />,
+      tabBarLabelStyle: {
+        fontSize: 12,
+        fontWeight: '600',
+        textTransform: 'none',
+        margin: 0,
+        padding: 0,
+      },
+      tabBarIconStyle: {
+        marginBottom: -2,
+      },
+      tabBarItemStyle: {
+        paddingVertical: 0,
+      },
     })}
   >
     <Tab.Screen
       name="Markets"
       component={MarketsScreen}
-      options={{ title: 'ChainStock — Markets' }}
+      options={{
+        tabBarLabel: '📈 Markets',
+        tabBarIcon: ({ focused }) => (
+          <Text style={{ fontSize: 14, opacity: focused ? 1 : 0.5 }}>📈</Text>
+        ),
+      }}
     />
     <Tab.Screen
       name="AI Predict"
       component={PredictScreen}
-      options={{ title: 'AI Prediction Engine' }}
+      options={{
+        tabBarLabel: '🤖 AI Predict',
+        tabBarIcon: ({ focused }) => (
+          <Text style={{ fontSize: 14, opacity: focused ? 1 : 0.5 }}>🤖</Text>
+        ),
+      }}
     />
     <Tab.Screen
       name="History"
       component={HistoryScreen}
-      options={{ title: 'Market History' }}
+      options={{
+        tabBarLabel: '📚 History',
+        tabBarIcon: ({ focused }) => (
+          <Text style={{ fontSize: 14, opacity: focused ? 1 : 0.5 }}>📚</Text>
+        ),
+      }}
     />
     <Tab.Screen
       name="Signals"
       component={SignalsScreen}
-      options={{ title: 'Market Signals' }}
+      options={{
+        tabBarLabel: '📡 Signals',
+        tabBarIcon: ({ focused }) => (
+          <Text style={{ fontSize: 14, opacity: focused ? 1 : 0.5 }}>📡</Text>
+        ),
+      }}
     />
   </Tab.Navigator>
 );
+
+const styles = StyleSheet.create({
+  tabIconContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tabIcon: {
+    fontSize: 16,
+    opacity: 0.5,
+  },
+  tabIconActive: {
+    opacity: 1,
+  },
+});
 
 export default function App() {
   return (
