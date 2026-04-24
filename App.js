@@ -72,9 +72,25 @@ export default function App() {
     <SafeAreaProvider>
       <NavigationContainer>
         <StatusBar style="light" />
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Landing" component={LandingScreen} />
-          <Stack.Screen name="Main" component={MainTabs} />
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: true,
+            headerStyle: { backgroundColor: COLORS.headerBg },
+            headerTintColor: COLORS.headerText,
+            headerTitleStyle: { fontWeight: '600', letterSpacing: 0.5 },
+            headerBackTitleVisible: false,
+          }}
+        >
+          <Stack.Screen
+            name="Landing"
+            component={LandingScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Main"
+            component={MainTabs}
+            options={{ title: 'ChainStock' }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
